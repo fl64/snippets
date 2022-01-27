@@ -1,0 +1,15 @@
+[Unit]
+Description=Simple serivice 
+After=docker.service    # start after docker
+Requires=docker.service 
+PartOf=docker.service   # restart service if docker will be restarted
+
+[Service]
+Type=oneshot
+ExecStart=/opt/service.sh 2>&1 | logger &
+ExecStop=/opt/service.sh off 2>&1 | logger &
+RemainAfterExit=true
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target
