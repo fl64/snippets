@@ -30,6 +30,11 @@ find all catalogs with helm charts and lint them
 find apps/ -mindepth 1 -maxdepth 1  -type d | xargs -I %HELMCHART% bash -c "helm dependency build %HELMCHART% && helm lint --with-subcharts --debug %HELMCHART%"
 ```
 
+find | grep and check
+```bash
+find . -name '*.yml' -o -name '*.yaml' -print0 | xargs -0 grep -E '(R|r)evision: .+' | grep -vE '(depricated|HEAD)' || EXIT_CODE=$?
+```
+
 loop over array vars with suffix
 
 ```bash
