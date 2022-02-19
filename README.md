@@ -1,9 +1,26 @@
 # Snippets
 
+Redirect
+
+```bash
+# Redirect stderr to stdout
+cmd 2>&1
+# Redirect stdout to stderr
+cmd 1>&2
+## stderr and stdout to file
+cmd 1>combined.log 2>&1
+```
+
 Show unix time 2 months ago
 
 ```bash
 date +%s -d '2 months ago'
+```
+
+Show time in format YYYY-MM-DD-hh-mm-ss
+
+```bash
+date "+%F-%H-%M-%s"
 ```
 
 find files accessed 5 min ago
@@ -31,6 +48,7 @@ find apps/ -mindepth 1 -maxdepth 1  -type d | xargs -I %HELMCHART% bash -c "helm
 ```
 
 find | grep and check
+
 ```bash
 find . -name '*.yml' -o -name '*.yaml' -print0 | xargs -0 grep -E '(R|r)evision: .+' | grep -vE '(depricated|HEAD)' || EXIT_CODE=$?
 ```
@@ -75,6 +93,22 @@ for key in "${!SSHKEY_@}"; do
 done
 ```
 
+heredoc to var
+
+```bash
+read -r -d '' CONFIG <<EOF
+{ "cluster_name":
+  {
+    "config":
+      {
+        "p1": "${VAR1}",
+        "p2": "${VAR2}",
+      }
+  }
+}
+EOF
+```
+
 random number in range
 
 ```bash
@@ -94,12 +128,10 @@ export EDITOR='subl -w'
 ansible-vault edit ...
 ```
 
-edit terraform state
+get script working dir
 
 ```bash
-terraform state pull > tf.state
-vi tf.state # (don't forget increase serial)
-terraform state push tf.state
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 ```
 
 ### system
@@ -122,7 +154,7 @@ priority
 ```bash
 journalctl -b -1  -p "emerg".."crit" # output all messages with priority between emergency and critical from last boot
 journalctl -b -1  -p 0..2 the same
-journalctl -p 4 from error level error
+journalctl -p 4 # from error level error
 ```
 
 time
@@ -258,6 +290,19 @@ docker images --format "{{ .ID}} {{.Repository }}:{{ .Tag}}"
 
 ### k8s
 
+get node names
+
+```bash
+NODES=$(kubectl get nodes -o json | jq '.items[].metadata.name' -r | tr '\n' ' ')
+
+# get node ip
+
+for NODE in ${NODES}; do
+  kubectl get nodes "${NODE}" -o json | jq '.status.addresses[0].address' -r
+done
+
+```
+
 k8s delete ns with finalizers
 
 ```bash
@@ -294,6 +339,32 @@ limits requests
 kubectl get pods -o=custom-columns=NAME:spec.containers[*].name,MEMREQ:spec.containers[*].resources.requests.memory,MEMLIM:spec.containers[*].resources.limits.memory,CPUREQ:spec.containers[*].resources.requests.cpu,CPULIM:spec.containers[*].resources.limits.cpu
 ```
 
+get cadvisor metrics
+
+```bash
+kubectl proxy --port 8888 & curl -s http://localhost:8888/api/v1/nodes/${NODE_NAME}/proxy/metrics/cadvisor
+```
+
+heredoc apply
+
+```bash
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Pod
+metadata:
+  name: httpbin
+  namespace: demo-service
+  labels:
+    app: httpbin
+spec:
+  containers:
+  - name: httpbin
+    image: kennethreitz/httpbin
+    ports:
+      - containerPort: 80
+EOF
+```
+
 ### yc
 
 remove all yc profile by mask
@@ -302,8 +373,30 @@ remove all yc profile by mask
 yc config profile list | grep "${PROFILE_NAME}" | xargs -L 1 yc config profile delete
 ```
 
+get cloud-id
+
+```bash
+yc --profile="${PROFILE_NAME}" config get cloud-id
+```
+
+get k8s cluster id
+
+```bash
+yc --profile="${PROFILE_NAME}" managed-kubernetes cluster list --format json | jq '.[].id' -r
+```
+
 get instances ids for yc k8s node group
 
 ```bash
 yc managed-kubernetes node-group list-nodes "group-1a" --profile="${PROFILE_NAME}" --format json | jq '.[].kubernetes_status.id'
+```
+
+### tf
+
+edit terraform state
+
+```bash
+terraform state pull > tf.state
+vi tf.state # (don't forget increase serial)
+terraform state push tf.state
 ```
