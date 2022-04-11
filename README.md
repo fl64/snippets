@@ -303,6 +303,15 @@ done
 
 ```
 
+git images
+
+```bash
+kubectl get pods --all-namespaces -o jsonpath="{.items[*].spec.containers[*].image}" |\
+tr -s '[[:space:]]' '\n' |\
+sort |\
+uniq -c
+```
+
 k8s delete ns with finalizers
 
 ```bash
