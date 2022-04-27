@@ -53,6 +53,13 @@ find | grep and check
 find . -name '*.yml' -o -name '*.yaml' -print0 | xargs -0 grep -E '(R|r)evision: .+' | grep -vE '(depricated|HEAD)' || EXIT_CODE=$?
 ```
 
+find and delete
+
+```bash
+find / -name .terraform -exec rm -rf {} \;
+find . -name ".terraform" -print0 | xargs -I {} -0 rm -rf "{}"
+```
+
 loop over array vars with suffix
 
 ```bash
