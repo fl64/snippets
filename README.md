@@ -116,6 +116,21 @@ read -r -d '' CONFIG <<EOF
 EOF
 ```
 
+trap a signal
+
+```bash
+#!/bin/bash
+
+trap "echo 'Terminating';exit" INT TERM
+
+echo "PID: $$"
+while true
+do
+    echo "$(date +'%H:%M')"
+    sleep 10
+done
+```
+
 random number in range
 
 ```bash
