@@ -1,5 +1,21 @@
 # Snippets
 
+## Testing
+
+Useful services for testing online
+
+- jq https://jqplay.org/
+- go template https://repeatit.io/
+- go https://goplay.space/
+- k8s YAML generator https://k8syaml.com/
+
+Upload from CLI
+
+- https://bashupload.com/
+- https://0x0.st/
+- https://transfer.sh/
+- https://hastebin.com/about.md
+
 ## Bash
 
 Redirect
