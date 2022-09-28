@@ -453,16 +453,19 @@ terraform state push tf.state
 ## Jq
 
 select records with .level is "info|error|warn" and .msg is not contain "deprecated"
+
 ```bash
 jq '. | select(.level | test("info|error|warn")) | select(.msg | test(".+deprecated.+") | not )
 ```
 
 select records with worker label exist and have addr type InternalIP
+
 ```bash
 jq '.items[] | select(.metadata.labels."node-role.kubernetes.io/worker"!=null) | .status.addresses | .[] | select (.type=="InternalIP") | .address' -r
 ```
 
 using args
+
 ```bash
 jq --arg name "istiod-v1x13" '.items[] | .metadata | select( .name | test($name)) | .name' -r
 jq --arg revision v1x13 '.items[] | select( .spec.revision == $revision ) | .metadata.name' -r
