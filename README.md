@@ -167,7 +167,6 @@ _term() {
 
 ```
 
-
 random number in range
 
 ```bash
@@ -191,6 +190,18 @@ get script working dir
 
 ```bash
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+```
+
+script execution time
+
+```bash
+start=$(date +%s)
+sleep 10
+end=$(date +%s)
+diffSeconds="$(($end-$start))"
+diffTime=$(date -d @${diffSeconds} +"%H:%M:%S" -u)
+echo "Diff in seconds: ${diffSeconds}."
+echo "Diff time(H:M:S): ${diffTime}."
 ```
 
 ### system
