@@ -134,6 +134,12 @@ read -r -d '' CONFIG <<EOF
 EOF
 ```
 
+sort by semver
+
+```bash
+printf "1.0\n2.0\n2.12\n2.10\n1.2\n1.10" | sort -t "." -k1,1n -k2,2n -k3,3n
+```
+
 trap a signal
 
 ```bash
