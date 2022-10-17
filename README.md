@@ -155,6 +155,19 @@ do
 done
 ```
 
+trap a signal v2
+
+```bash
+trap _term SIGINT SIGTERM
+
+_term() {
+  echo 'Terminating'
+  exit
+}
+
+```
+
+
 random number in range
 
 ```bash
