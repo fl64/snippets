@@ -320,6 +320,12 @@ curl via ip
 curl https://example.com --resolve 'example.com:443:192.0.2.17'
 ```
 
+curl and untar
+
+```bash
+sudo bash -c "curl -L https://github.com/cilium/cilium-cli/releases/download/v0.12.4/cilium-linux-amd64.tar.gz | tar -xz -C /usr/local/bin/"
+```
+
 send email with curl
 
 ```bash
