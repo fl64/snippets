@@ -1,0 +1,22 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: echo
+
+resources:
+  - ./ns.yaml
+  - ./deploy.yaml
+  - ./sa.yaml
+  - ./svc.yaml
+
+commonAnnotations:
+  xxx: blah
+
+replicas:
+  - name: echo
+    count: 2
+
+patchesStrategicMerge:
+  - ./deploy.env.patch.yaml
+  - ./deploy.res.patch.yaml

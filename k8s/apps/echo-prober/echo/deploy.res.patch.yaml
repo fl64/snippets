@@ -1,0 +1,18 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo
+spec:
+  template:
+    spec:
+      containers:
+        - name: echo
+          resources:
+            requests:
+              cpu: 50m
+              memory: 50Mi
+            limits:
+              cpu: 50m
+              memory: 50Mi

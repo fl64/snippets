@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: echo
+  labels:
+    app: echo
+    service: echo
+spec:
+  ports:
+  - name: http
+    port: 63636
+    targetPort: http
+  selector:
+    app: echo
