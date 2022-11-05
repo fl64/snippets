@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: echo
+    service: echo
+  name: echo
+spec:
+  ports:
+  - name: http
+    port: 63636
+    protocol: TCP
+    targetPort: http
+  selector:
+    app: echo
+  type: ClusterIP

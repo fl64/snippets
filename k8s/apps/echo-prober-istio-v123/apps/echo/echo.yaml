@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: echo
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo
+  labels:
+    app: echo
+spec:
+  progressDeadlineSeconds: 5
+  replicas: 1
+  selector:
+    matchLabels:
+      app: echo
+  strategy: {}
+  template:
+    metadata:
+      annotations: {}
+      labels:
+        app: echo
+    spec:
+      containers:
+      - env: []
+        image: docker.io/fl64/echo-http
+        imagePullPolicy: IfNotPresent
+        name: echo
+        ports:
+        - containerPort: 8000
+          name: http
+          protocol: TCP
+        resources: {}
+      restartPolicy: Always
+      securityContext: {}
+      serviceAccountName: echo

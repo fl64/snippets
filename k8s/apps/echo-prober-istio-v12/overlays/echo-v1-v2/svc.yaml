@@ -1,0 +1,55 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: echo
+    service: echo
+  name: echo
+spec:
+  ports:
+  - name: http
+    port: 63636
+    protocol: TCP
+    targetPort: http
+  selector:
+    app: echo
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: echo
+    service: echo
+    version: v1
+  name: echo-v1
+spec:
+  ports:
+  - name: http
+    port: 63636
+    protocol: TCP
+    targetPort: http
+  selector:
+    app: echo
+    version: v1
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: echo
+    service: echo
+    version: v2
+  name: echo-v2
+spec:
+  ports:
+  - name: http
+    port: 63636
+    protocol: TCP
+    targetPort: http
+  selector:
+    app: echo
+    version: v2
+  type: ClusterIP

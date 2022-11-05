@@ -1,0 +1,19 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: echo
+spec:
+  hosts:
+  - echo.echo-v3.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: echo.echo-v3.svc.cluster.local
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: echo
+spec:
+  host: echo.echo-v3.svc.cluster.local
