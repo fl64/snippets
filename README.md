@@ -4,7 +4,8 @@
 
 Useful services for testing online
 
-- jq https://jqplay.org/
+- jq ployground https://jqplay.org/
+- another jq ployground https://jqterm.com/?query=.
 - go template https://repeatit.io/
 - go https://goplay.space/
 - k8s YAML generator https://k8syaml.com/
