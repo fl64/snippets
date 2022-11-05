@@ -94,6 +94,26 @@ for _CHECK in $(compgen -v | grep -xE '(HTTP|SIP)_CHECK_.*'); do
 done
 ```
 
+read template into the var
+
+```bash
+read -r -d '' VAULT_CONF <<EOF
+{ "cluster_name":
+  {
+    "config":
+      {
+        "token_reviewer_jwt": "${JWT_TOKEN}",
+        "kubernetes_host": "https://${ENDPOINTS}",
+        "kubernetes_ca_cert": "${K8S_CA}"
+      }
+  }
+}
+EOF
+
+echo ${VAULT_CONF} | jq
+```
+
+
 logging to syslog
 
 ```bash
