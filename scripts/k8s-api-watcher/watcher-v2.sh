@@ -20,6 +20,7 @@ do
   printf '%s' "${deploy}" | jq '{type, ns: .object.metadata.namespace, name: .object.metadata.name, status: .object.status | del(.conditions)}' -c
   ns=$(printf '%s' "${deploy}" | jq .object.metadata.namespace -r)
   name=$(printf '%s' "${deploy}" | jq .object.metadata.namespace -r)
+  printf '%s' "${deploy}" | jq '. | del(.object.metadata.managedFields)'
   #curl -s "${K8S_API}/apis/apps/v1/namespaces/${ns}/replicasets?limit=100" -H "${H}" --cert <(echo "${K8S_CLIENT_CRT}") --key <(echo "${K8S_CLIENT_KEY}") --cacert <(echo "${K8S_CA}") | jq .items[].metadata.name
   #curl -s "${K8S_API}/api/v1/namespaces/${ns}/pods?limit=100" -H "${H}" --cert <(echo "${K8S_CLIENT_CRT}") --key <(echo "${K8S_CLIENT_KEY}") --cacert <(echo "${K8S_CA}") | jq .items[].metadata.name
 

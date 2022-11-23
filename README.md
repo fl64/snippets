@@ -17,7 +17,9 @@ Upload from CLI
 - https://transfer.sh/
 - https://hastebin.com/about.md
 
-## Bash
+## CLI
+
+### Bash
 
 Redirect
 
@@ -112,7 +114,6 @@ EOF
 
 echo ${VAULT_CONF} | jq
 ```
-
 
 logging to syslog
 
@@ -225,6 +226,16 @@ echo "Diff in seconds: ${diffSeconds}."
 echo "Diff time(H:M:S): ${diffTime}."
 ```
 
+### Ecnryption
+
+Encrypt/decrypt file with AES
+
+```bash
+echo "secret" | openssl enc -aes-256-cbc -a -e -iter 1000 -k "password"
+
+echo "U2FsdGVkX19qISwjfyH5M9eNCFnEh5XfUHBBA7yfNkQ=" | openssl enc -aes-256-cbc -a -d -iter 1000 -k "password"
+```
+
 ### system
 
 journalctl get docker logs
@@ -258,7 +269,7 @@ journalctl --since "2015-06-26 23:15:00" --until "2015-06-26 23:20:00" # system 
 reverse
 
 ```bash
-journalctl -u docker -r list in reverse order
+journalctl -u docker -r # list in reverse order
 ```
 
 ### git
@@ -266,7 +277,7 @@ journalctl -u docker -r list in reverse order
 git diff to folder
 
 ```bash
-git -C some/code/app diff --relative HEAD~ # relative path in patch file
+git -C some/code/app diff --relative HEAD~   # relative path in patch file
 git -C some/code/app diff  HEAD~ > app.patch # full path
 git apply app.patch
 ```
@@ -387,19 +398,6 @@ docker images --format "{{ .ID}} {{.Repository }}:{{ .Tag}}"
 
 ### k8s
 
-get node names
-
-```bash
-NODES=$(kubectl get nodes -o json | jq '.items[].metadata.name' -r | tr '\n' ' ')
-
-# get node ip
-
-for NODE in ${NODES}; do
-  kubectl get nodes "${NODE}" -o json | jq '.status.addresses[0].address' -r
-done
-
-```
-
 git images
 
 ```bash
@@ -418,19 +416,14 @@ kubectl get namespace $NAMESPACE -o json |jq '.spec = {"finalizers":[]}' >temp.j
 curl -k -H "Content-Type: application/json" -X PUT --data-binary @temp.json 127.0.0.1:8001/api/v1/namespaces/$NAMESPACE/finalize
 ```
 
-wait for node
+wait for some res
 
 ```bash
 kubectl wait --for condition=ready -l node-role.kubernetes.io/control-plane node
 kubectl wait --for condition=ready -l node-role.kubernetes.io/master node
 kubectl wait --for condition=ready node --all --timeout=10s
-```
-
-wait for pod
-
-```bash
-kubectl wait --for=condition=ready pod -l app=someappwait for job
-kubectl wait --for=condition=complete --timeout=30s -n namespace job/some-job
+kubectl wait --for=condition=ready pod -l app=someapp
+kubectl wait --for=condition=complete --timeout=30s  job/some-job
 ```
 
 exec to some shell
