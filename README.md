@@ -226,6 +226,13 @@ echo "Diff in seconds: ${diffSeconds}."
 echo "Diff time(H:M:S): ${diffTime}."
 ```
 
+passing parameters to bash when executing a script fetched by curl
+
+```bash
+curl http://example.com/script.sh | bash -s -- arg1 arg2
+
+```
+
 ### Ecnryption
 
 Encrypt/decrypt file with AES
